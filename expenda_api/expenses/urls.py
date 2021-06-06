@@ -7,5 +7,5 @@ from .apis import (
 
 urlpatterns = [
     path('', ListCreateExpensesAPI.as_view(), name='expenses_list_create_expenses'),
-    path('<int:id>', RetrieveUpdateDeleteExpenseAPI.as_view(), name='expenses_retrieve_update_delete_expense'),
+    path('<int:pk>', RetrieveUpdateDeleteExpenseAPI.as_view(), name='expenses_retrieve_update_delete_expense'),
 ]

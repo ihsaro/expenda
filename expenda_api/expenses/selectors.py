@@ -1,7 +1,9 @@
 from rest_framework import status
+from rest_framework.exceptions import NotFound, PermissionDenied
 from rest_framework.request import Request
 from rest_framework.response import Response
 
+from authentication.models import AppUser
 from authentication.utils import get_user_from_access_token
 
 from .models import Expense
@@ -16,13 +18,20 @@ def list_expenses_selector(*, request: Request) -> Response:
     )
 
 
-def retrieve_expense_selector(*, request: Request, id: int) -> Response:
-    expense = Expense.objects.filter(id=id).first()
+def retrieve_expense_selector(*, request: Request, pk: int) -> Response:
+    return Response(
+        ListRetrieveExpenseSerializer(fetch_expense(pk=pk, current_user=get_user_from_access_token(request=request))).data,
+        status=status.HTTP_200_OK
+    )
 
-    if not expense:
-        return Response({'detail': 'Not found'}, status=status.HTTP_404_NOT_FOUND)
 
-    if expense.owner != get_user_from_access_token(request=request):
-        return Response({'detail': 'Forbidden'}, status=status.HTTP_403_FORBIDDEN)
+def fetch_expense(*, pk: int, current_user: AppUser) -> Expense:
+    try:
+        expense = Expense.objects.get(pk=pk)
+    except Expense.DoesNotExist:
+        raise NotFound
 
-    return Response(ListRetrieveExpenseSerializer(expense).data, status=status.HTTP_200_OK)
+    if expense.owner != current_user:
+        raise PermissionDenied
+
+    return expense

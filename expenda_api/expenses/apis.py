@@ -27,11 +27,11 @@ class ListCreateExpensesAPI(APIView):
 class RetrieveUpdateDeleteExpenseAPI(APIView):
     permission_classes = [IsJWTTokenValid]
 
-    def get(self, request, id):
-        return retrieve_expense_selector(request=request, id=id)
+    def get(self, request, pk):
+        return retrieve_expense_selector(request=request, pk=pk)
 
-    def put(self, request, id):
-        return update_expense_service(request=request, id=id)
+    def put(self, request, pk):
+        return update_expense_service(request=request, pk=pk)
 
-    def delete(self, request, id):
-        return delete_expense_service(request=request, id=id)
+    def delete(self, request, pk):
+        return delete_expense_service(request=request, pk=pk)
