@@ -50,7 +50,7 @@ class MonthlyBudget(models.Model):
     month = models.CharField(max_length=3, choices=MONTH_CHOICES, blank=False, default=JANUARY)
     year = models.IntegerField(blank=False, default=YEAR_MIN_VALUE, validators=[
         MinValueValidator(YEAR_MIN_VALUE),
-        MinValueValidator(YEAR_MAX_VALUE)
+        MaxValueValidator(YEAR_MAX_VALUE)
     ])
     budget = models.FloatField(blank=False, default=0)
     owner = models.ForeignKey(AppUser, on_delete=models.CASCADE)

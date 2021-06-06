@@ -6,8 +6,8 @@ from rest_framework.response import Response
 from authentication.models import AppUser
 from authentication.utils import get_user_from_access_token
 
-from .models import Expense
-from .serializers import ListRetrieveExpenseSerializer
+from .models import Expense, MonthlyBudget
+from .serializers import ListRetrieveExpenseSerializer, MonthlyBudgetSerializer
 
 
 def list_expenses_selector(*, request: Request) -> Response:
@@ -25,6 +25,22 @@ def retrieve_expense_selector(*, request: Request, pk: int) -> Response:
     )
 
 
+def list_monthly_budgets_selector(*, request: Request) -> Response:
+    return Response(
+        MonthlyBudgetSerializer(MonthlyBudget.objects.filter(owner=get_user_from_access_token(request=request)),
+                                      many=True).data,
+        status=status.HTTP_200_OK
+    )
+
+
+def retrieve_monthly_budget_selector(*, request: Request, pk: int) -> Response:
+    return Response(
+        MonthlyBudgetSerializer(
+            fetch_monthly_budget(pk=pk, current_user=get_user_from_access_token(request=request))).data,
+        status=status.HTTP_200_OK
+    )
+
+
 def fetch_expense(*, pk: int, current_user: AppUser) -> Expense:
     try:
         expense = Expense.objects.get(pk=pk)
@@ -35,3 +51,15 @@ def fetch_expense(*, pk: int, current_user: AppUser) -> Expense:
         raise PermissionDenied
 
     return expense
+
+
+def fetch_monthly_budget(*, pk: int, current_user: AppUser) -> MonthlyBudget:
+    try:
+        monthly_budget = MonthlyBudget.objects.get(pk=pk)
+    except MonthlyBudget.DoesNotExist:
+        raise NotFound
+
+    if monthly_budget.owner != current_user:
+        raise PermissionDenied
+
+    return monthly_budget
