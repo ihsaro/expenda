@@ -5,6 +5,7 @@ from rest_framework.response import Response
 
 from authentication.models import AppUser
 from authentication.utils import get_user_from_access_token
+from utils.custom_exceptions import AppPermissionDenied
 
 from .models import Expense, MonthlyBudget
 from .serializers import ListRetrieveExpenseSerializer, MonthlyBudgetSerializer
@@ -48,7 +49,7 @@ def fetch_expense(*, pk: int, current_user: AppUser) -> Expense:
         raise NotFound
 
     if expense.owner != current_user:
-        raise PermissionDenied
+        raise AppPermissionDenied
 
     return expense
 
@@ -60,6 +61,6 @@ def fetch_monthly_budget(*, pk: int, current_user: AppUser) -> MonthlyBudget:
         raise NotFound
 
     if monthly_budget.owner != current_user:
-        raise PermissionDenied
+        raise AppPermissionDenied
 
     return monthly_budget
