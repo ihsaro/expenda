@@ -2,14 +2,15 @@ import { useRouter } from "next/router";
 import { Button, Layout, Space } from 'antd';
 import { LoginOutlined, UserAddOutlined } from '@ant-design/icons';
 
-const { Header, Content } = Layout;
+import { GuestNavigationBar } from "components/navigation_bar/navigation_bar";
+import { Footer } from "components/footer/footer";
 
 export function Welcome() {
 
     const headerStyles = {
         paddingTop: "12%",
         fontFamily: "'Montserrat', sans-serif",
-        fontSize: "5vw",
+        fontSize: "75px",
         textAlign: "center"
     };
 
@@ -19,27 +20,23 @@ export function Welcome() {
         textAlign: "center"
     }
 
-    const footerStyles = {
-        position: "fixed",
-        bottom: 0,
-        right: 0,
-        margin: "0px 10px 10px 0px",
-        fontFamily: "'Montserrat', sans-serif",
-        fontSize: "1.1vw"
+    const buttonStyles = {
+        margin: "0px 5px 0px 5px"
     }
 
     const router = useRouter();
 
     return (
         <>
-            <header style={headerStyles}>Welcome to Expenda</header>
+            <header>
+                <GuestNavigationBar />
+                <h1 style={headerStyles}>Welcome to Expenda</h1>
+            </header>
             <main style={mainStyles}>
-                <Space>
-                    <Button type="primary" shape="round" icon={<LoginOutlined />} size="large" onClick={() => router.push("/login")}>Login</Button>
-                    <Button type="primary" shape="round" icon={<UserAddOutlined />} size="large" onClick={() => router.push("/register")}>Register</Button>
-                </Space>
+                <Button type="primary" shape="round" icon={<LoginOutlined />} size="large" onClick={() => router.push("/login")} style={buttonStyles}>Login</Button>
+                <Button type="primary" shape="round" icon={<UserAddOutlined />} size="large" onClick={() => router.push("/register")} style={buttonStyles}>Register</Button>
             </main>
-            <footer style={footerStyles}>Built using Django Rest Framework and React JS with Ant Design</footer>
+            <Footer />
         </>
     )
 }

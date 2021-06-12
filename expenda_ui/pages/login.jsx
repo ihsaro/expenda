@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect } from "react";
 import { Form, Input, Button, Checkbox, notification } from "antd";
+
 import { performPost } from "utils/api_communication";
+import { GuestNavigationBar } from "components/navigation_bar/navigation_bar";
+import { Footer } from "components/footer/footer";
 
 export default function Login() {
 
 	const headerStyles = {
-		paddingTop: "5%",
+		paddingTop: "20px",
 		fontFamily: "'Montserrat', sans-serif",
         fontSize: "35px",
 		textAlign: "center",
@@ -48,8 +51,9 @@ export default function Login() {
 
 	return (
 		<>
-			<header style={headerStyles}>
-				Login
+			<header>
+				<GuestNavigationBar />
+				<h1 style={headerStyles}>Login</h1>
 			</header>
 			<main>
 				<Form
@@ -99,9 +103,7 @@ export default function Login() {
 
 				</Form>
 			</main>
-			<footer>
-
-			</footer>
+			<Footer />
 		</>
 	)
 }
