@@ -20,8 +20,9 @@ export async function performPost(url, payload) {
         body: JSON.stringify(payload),
         credentials: "include"
     });
+
     return {
-        "data": response.json(),
-        "status": response.status
+        "status": response.status,
+        "data": await response.json()
     };
 }
