@@ -8,7 +8,10 @@ export async function performGet(url) {
         }
     });
 
-    return response;
+    return {
+        "status": response.status,
+        "data": await response.json()
+    };
 }
 
 export async function performPost(url, payload) {
