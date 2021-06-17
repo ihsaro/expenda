@@ -1,9 +1,36 @@
 // import App from 'next/app'
+import { useState } from "react";
+import Router from 'next/router';
+
+import { Spin } from "antd";
+
 import 'antd/dist/antd.css';
 
 function MyApp({ Component, pageProps }) {
-    return <Component {...pageProps} />
-  }
+
+  const [loading, setLoading] = useState(false);
+
+  Router.onRouteChangeStart = () => {
+    console.log('onRouteChangeStart triggered');
+    setLoading(true);
+  };
+
+  Router.onRouteChangeComplete = () => {
+    console.log('onRouteChangeComplete triggered');
+    setLoading(false);
+  };
+  
+  Router.onRouteChangeError = () => {
+    console.log('onRouteChangeError triggered');
+    setLoading(false);
+  };
+
+  return (
+    <Spin spinning={loading}>
+      <Component {...pageProps} />
+    </Spin>
+  )
+}
   
   // Only uncomment this method if you have blocking data requirements for
   // every single page in your application. This disables the ability to
@@ -17,5 +44,4 @@ function MyApp({ Component, pageProps }) {
   //   return { ...appProps }
   // }
   
-  export default MyApp
-  
+export default MyApp;  
