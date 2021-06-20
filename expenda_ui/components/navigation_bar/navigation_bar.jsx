@@ -1,11 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { Layout, Menu } from "antd";
 import { HomeOutlined, LoginOutlined, UserAddOutlined, PlusOutlined, UnorderedListOutlined, FundViewOutlined, LogoutOutlined, EditOutlined } from '@ant-design/icons';
 
+import { performGet } from "utils/api_communication";
+
 const { Sider } = Layout;
-const { SubMenu } = Menu;
 
 export function LogonNavigationBar(props) {
     const logonNavigationBarStyles = {
@@ -13,9 +14,19 @@ export function LogonNavigationBar(props) {
         fontFamily: "'Montserrat', sans-serif"
     }
 
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+        performGet("/api/v1/authentication/user-details/").then(response => {
+			if (response.status == 200) {
+                setUsername(response.data["username"]);
+			}
+		});
+    })
+
     return (
         <Sider style={logonNavigationBarStyles} collapsible theme="light">
-            <div style={{ textAlign: "center", margin: "10px 0px 10px 0px" }}>Welcome User-1</div>
+            <div style={{ textAlign: "center", margin: "10px 0px 10px 0px" }}>Welcome {username}</div>
             <Menu
                 defaultSelectedKeys={[props.selectedKey]}
                 mode="inline"

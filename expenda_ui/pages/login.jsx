@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useRouter } from "next/router";
+
 import { Form, Input, Button, Checkbox, notification } from "antd";
 
 import { performPost } from "utils/api_communication";
@@ -22,6 +23,8 @@ export default function Login() {
 		margin: "2% auto"
 	}
 
+    const router = useRouter();
+
 	const openNotificationWithIcon = (type, title, description) => {
 		notification[type]({
 		  	message: title,
@@ -40,7 +43,8 @@ export default function Login() {
 				openNotificationWithIcon("error", "Login Error", "Credentials provided incorrect");
 			}
 			else if (response.status == 200) {
-				openNotificationWithIcon("success", "Login Successful", "Credentials provided correct");
+				// openNotificationWithIcon("success", "Login Successful", "Credentials provided correct");
+				router.push("/");
 			}
 		});
 	}

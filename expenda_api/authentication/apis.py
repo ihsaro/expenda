@@ -1,11 +1,13 @@
-from rest_framework.exceptions import NotAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.exceptions import TokenError
 
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
+from utils.custom_exceptions import JWTRefreshTokenExpired
 from .models import AppUser
+from .permissions import IsJWTTokenValid
+from .selectors import get_logged_in_user_details
 from .serializers import ProdexUserSerializer
 from .services import (
     register,
@@ -45,7 +47,7 @@ class SlideTokenAPI(TokenRefreshView):
         try:
             serializer.is_valid(raise_exception=True)
         except TokenError:
-            raise NotAuthenticated('Refresh token invalid')
+            raise JWTRefreshTokenExpired
 
         data = serializer.validated_data
         response = Response({
@@ -58,3 +60,10 @@ class SlideTokenAPI(TokenRefreshView):
 class LogoutAPI(APIView):
     def post(self, request):
         return logout(request=request)
+
+
+class UserDetailsAPI(APIView):
+    permission_classes = [IsJWTTokenValid]
+
+    def get(self, request):
+        return get_logged_in_user_details(request=request)

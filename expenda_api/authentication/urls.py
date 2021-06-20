@@ -4,7 +4,8 @@ from .apis import (
     LoginAPI,
     LogoutAPI,
     RegisterAPI,
-    SlideTokenAPI
+    SlideTokenAPI,
+    UserDetailsAPI
 )
 
 urlpatterns = [
@@ -12,4 +13,5 @@ urlpatterns = [
     path('logout/', LogoutAPI.as_view(), name='authentication_logout'),
     path('register/', RegisterAPI.as_view(), name='authentication_register'),
     path('slide-token/', SlideTokenAPI.as_view(), name='authentication_slide_token'),
+    path('user-details/', UserDetailsAPI.as_view(), name='authentication_user_details'),
 ]
