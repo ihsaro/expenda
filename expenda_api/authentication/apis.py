@@ -7,7 +7,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from utils.custom_exceptions import JWTRefreshTokenExpired
 from .models import AppUser
 from .permissions import IsJWTTokenValid
-from .selectors import get_logged_in_user_details
+from .selectors import (
+    get_logged_in_user_details,
+    is_user_access_token_valid,
+    is_user_refresh_token_valid
+)
 from .serializers import ProdexUserSerializer
 from .services import (
     register,
@@ -60,6 +64,16 @@ class SlideTokenAPI(TokenRefreshView):
 class LogoutAPI(APIView):
     def post(self, request):
         return logout(request=request)
+
+
+class UserAccessTokenValidAPI(APIView):
+    def post(self, request):
+        return is_user_access_token_valid(request=request)
+
+
+class UserRefreshTokenValidAPI(APIView):
+    def post(self, request):
+        return is_user_refresh_token_valid(request=request)
 
 
 class UserDetailsAPI(APIView):

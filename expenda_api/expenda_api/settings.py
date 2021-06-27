@@ -136,12 +136,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'authentication.AppUser'
 
 REST_FRAMEWORK = {
-    "EXCEPTION_HANDLER": "utils.custom_exceptions.custom_not_authenticated_handler_exception"
+    "EXCEPTION_HANDLER": "utils.custom_exceptions.custom_not_authenticated_handler_exception",
 }
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=10),
+    'REFRESH_TOKEN_LIFETIME': timedelta(hours=2),
 }
 
 CORS_ALLOW_CREDENTIALS = True

@@ -1,10 +1,9 @@
-// import App from 'next/app'
 import { useState } from "react";
 import Router from 'next/router';
 
-import { Spin } from "antd";
-
 import 'antd/dist/antd.css';
+
+import { Loader } from "components/loader/loader";
 
 function MyApp({ Component, pageProps }) {
 
@@ -25,11 +24,10 @@ function MyApp({ Component, pageProps }) {
     setLoading(false);
   };
 
-  return (
-    <Spin spinning={loading}>
-      <Component {...pageProps} />
-    </Spin>
-  )
+  if (loading)
+    return <Loader />
+  else
+    return <Component {...pageProps} />
 }
   
   // Only uncomment this method if you have blocking data requirements for

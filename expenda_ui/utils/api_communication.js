@@ -1,4 +1,3 @@
-import { useRouter } from "next/router";
 import { notification } from 'antd';
 
 const API_URL = "http://localhost:8000"
@@ -21,15 +20,9 @@ export async function performGet(url) {
         credentials: "include"
     });
 
-    const jsonResponse = await response.json();
-    if (jsonResponse.code && jsonResponse.code == "NOT_AUTHENTICATED") {
-        const slideTokenResponse = await performPost("/api/v1/authentication/slide-token/");
-        response = await performGet(url);
-    }
-
     return {
         "status": response.status,
-        "data": jsonResponse
+        "data": await response.json()
     };
 }
 

@@ -1,3 +1,4 @@
+from rest_framework import status
 from rest_framework.exceptions import PermissionDenied, NotAuthenticated, APIException
 from rest_framework.response import Response
 from rest_framework.views import exception_handler
@@ -24,7 +25,7 @@ def custom_not_authenticated_handler_exception(exc, context):
         return Response({
             'detail': 'You are not authenticated',
             'code': 'NOT_AUTHENTICATED'
-        }, status=401)
+        }, status=status.HTTP_401_UNAUTHORIZED)
 
     # else
     # default case

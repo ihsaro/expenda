@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Modal } from "antd";
 import { HomeOutlined, LoginOutlined, UserAddOutlined, PlusOutlined, UnorderedListOutlined, FundViewOutlined, LogoutOutlined, EditOutlined } from '@ant-design/icons';
 
-import { performGet } from "utils/api_communication";
+import { performGet, performPost } from "utils/api_communication";
 
 const { Sider } = Layout;
 
@@ -15,6 +15,9 @@ export function LogonNavigationBar(props) {
     }
 
     const [username, setUsername] = useState("");
+    const [isLogoutModalVisible, setIsLogoutModalVisible] = useState(false);
+
+    const router = useRouter();
 
     useEffect(() => {
         performGet("/api/v1/authentication/user-details/").then(response => {
@@ -23,6 +26,23 @@ export function LogonNavigationBar(props) {
 			}
 		});
     })
+
+    const showLogoutModal = () => {
+        setIsLogoutModalVisible(true);
+    };
+    
+    const handleOk = () => {
+        setIsLogoutModalVisible(false);
+        performPost("/api/v1/authentication/logout/").then(response => {
+            if (response.status == 200) {
+                router.push("/login");
+            }
+        });
+    };
+    
+    const handleCancel = () => {
+        setIsLogoutModalVisible(false);
+    };
 
     return (
         <Sider style={logonNavigationBarStyles} collapsible theme="light">
@@ -36,8 +56,11 @@ export function LogonNavigationBar(props) {
                 <Menu.Item key="listExpenses" icon={<UnorderedListOutlined />}>List Expenses</Menu.Item>
                 <Menu.Item key="setBudget" icon={<EditOutlined />}>Set Budget</Menu.Item>
                 <Menu.Item key="viewBudget" icon={<FundViewOutlined />}>View Budgets</Menu.Item>
-                <Menu.Item key="logout" icon={<LogoutOutlined />} style={{ color: "red" }}>Logout</Menu.Item>
+                <Menu.Item key="logout" icon={<LogoutOutlined />} style={{ color: "red" }} onClick={() => showLogoutModal()}>Logout</Menu.Item>
             </Menu>
+            <Modal title="Basic Modal" visible={isLogoutModalVisible} onOk={handleOk} onCancel={handleCancel}>
+                Do you want to logout?
+            </Modal>
         </Sider>
     )
 }
