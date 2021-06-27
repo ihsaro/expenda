@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Home } from "components/home/home";
+import { AuthenticatedWelcome } from "components/authenticated_welcome/authenticated_welcome";
 import { Welcome } from "components/welcome/welcome";
 import { Loader } from "components/loader/loader";
 
@@ -23,7 +23,7 @@ export default function Index() {
         return <Loader />
     else
         if (isAuthenticated)
-            return <Home />
+            return <AuthenticatedWelcome />
         else
             return <Welcome />
 }

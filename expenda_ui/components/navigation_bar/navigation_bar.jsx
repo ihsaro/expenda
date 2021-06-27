@@ -44,6 +44,10 @@ export function LogonNavigationBar(props) {
         setIsLogoutModalVisible(false);
     };
 
+    const setSelectedKey = (event) => {
+        props.onSelectedKeyChange(event.key);
+    }
+
     return (
         <Sider style={logonNavigationBarStyles} collapsible theme="light">
             <div style={{ textAlign: "center", margin: "10px 0px 10px 0px" }}>Welcome {username}</div>
@@ -51,14 +55,14 @@ export function LogonNavigationBar(props) {
                 defaultSelectedKeys={[props.selectedKey]}
                 mode="inline"
             >
-                <Menu.Item key="home" icon={<HomeOutlined />}>Home</Menu.Item>
-                <Menu.Item key="createExpense" icon={<PlusOutlined />}>Create Expense</Menu.Item>
-                <Menu.Item key="listExpenses" icon={<UnorderedListOutlined />}>List Expenses</Menu.Item>
-                <Menu.Item key="setBudget" icon={<EditOutlined />}>Set Budget</Menu.Item>
-                <Menu.Item key="viewBudget" icon={<FundViewOutlined />}>View Budgets</Menu.Item>
+                <Menu.Item key="home" icon={<HomeOutlined />} onClick={(event) => setSelectedKey(event)}>Home</Menu.Item>
+                <Menu.Item key="createExpense" icon={<PlusOutlined />} onClick={(event) => setSelectedKey(event)}>Create Expense</Menu.Item>
+                <Menu.Item key="listExpenses" icon={<UnorderedListOutlined />} onClick={(event) => setSelectedKey(event)}>List Expenses</Menu.Item>
+                <Menu.Item key="setBudget" icon={<EditOutlined />} onClick={(event) => setSelectedKey(event)}>Set Budget</Menu.Item>
+                <Menu.Item key="viewBudgets" icon={<FundViewOutlined />} onClick={(event) => setSelectedKey(event)}>View Budgets</Menu.Item>
                 <Menu.Item key="logout" icon={<LogoutOutlined />} style={{ color: "red" }} onClick={() => showLogoutModal()}>Logout</Menu.Item>
             </Menu>
-            <Modal title="Basic Modal" visible={isLogoutModalVisible} onOk={handleOk} onCancel={handleCancel}>
+            <Modal title="Logout" visible={isLogoutModalVisible} onOk={handleOk} onCancel={handleCancel}>
                 Do you want to logout?
             </Modal>
         </Sider>
