@@ -12,13 +12,13 @@ class ListRetrieveExpenseSerializer(ModelSerializer):
 class CreateExpenseSerializer(ModelSerializer):
     class Meta:
         model = Expense
-        fields = ['name', 'description', 'amount', 'quantity', 'owner']
+        fields = ['name', 'description', 'price', 'quantity', 'owner']
 
 
 class UpdateExpenseSerializer(ModelSerializer):
     class Meta:
         model = Expense
-        fields = ['name', 'description', 'amount', 'quantity']
+        fields = ['name', 'description', 'price', 'quantity']
 
 
 class MonthlyBudgetSerializer(ModelSerializer):

@@ -7,7 +7,7 @@ from authentication.models import AppUser
 class Expense(models.Model):
     name = models.CharField(max_length=100, blank=False, default='')
     description = models.CharField(max_length=1000, blank=True)
-    amount = models.FloatField(blank=False, default=0)
+    price = models.FloatField(blank=False, default=0)
     quantity = models.IntegerField(blank=False, default=1)
     created_timestamp = models.DateTimeField(auto_now_add=True)
     last_modified_timestamp = models.DateTimeField(auto_now=True)

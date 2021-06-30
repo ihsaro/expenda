@@ -18,9 +18,9 @@ export function ListExpenses() {
             key: "description"
         },
         {
-            title: "Amount",
-            dataIndex: "amount",
-            key: "amount"
+            title: "Price",
+            dataIndex: "price",
+            key: "price"
         },
         {
             title: "Quantity",
@@ -39,7 +39,7 @@ export function ListExpenses() {
                     expensesResponse.push({
                         name: expense.name,
                         description: expense.description,
-                        amount: expense.amount,
+                        price: expense.price,
                         quantity: expense.quantity
                     })
                 })

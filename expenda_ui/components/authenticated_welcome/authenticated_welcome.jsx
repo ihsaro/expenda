@@ -53,7 +53,7 @@ export function AuthenticatedWelcome() {
                 setIsLoading(false);
             }
         });
-    }, []);
+    });
 
     if (isLoading) {
         return <Loader />
