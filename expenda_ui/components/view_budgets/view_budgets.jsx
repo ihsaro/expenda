@@ -1,3 +1,3 @@
 export function ViewBudgets() {
-    return <div>view!</div>
+  return <div>view!</div>;
 }

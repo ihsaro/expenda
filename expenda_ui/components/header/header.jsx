@@ -1,17 +1,14 @@
 import { Layout } from "antd";
 
-const { Header } = Layout
+const { Header } = Layout;
 
 export function LogonHeader(props) {
+  const logonHeaderStyles = {
+    backgroundColor: "white",
+    fontFamily: "'Montserrat', sans-serif",
+    fontSize: "40px",
+    textAlign: "center",
+  };
 
-    const logonHeaderStyles = {
-        backgroundColor: "white",
-        fontFamily: "'Montserrat', sans-serif",
-        fontSize: "40px",
-        textAlign: "center"
-    };
-
-    return (
-        <Header style={logonHeaderStyles}>{props.title}</Header>
-    )
+  return <Header style={logonHeaderStyles}>{props.title}</Header>;
 }

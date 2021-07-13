@@ -1,45 +1,42 @@
 import { useState } from "react";
-import Router from 'next/router';
+import Router from "next/router";
 
-import 'antd/dist/antd.css';
+import "antd/dist/antd.css";
 
 import { Loader } from "components/loader/loader";
 
 function MyApp({ Component, pageProps }) {
-
   const [loading, setLoading] = useState(false);
 
   Router.onRouteChangeStart = () => {
-    console.log('onRouteChangeStart triggered');
+    console.log("onRouteChangeStart triggered");
     setLoading(true);
   };
 
   Router.onRouteChangeComplete = () => {
-    console.log('onRouteChangeComplete triggered');
-    setLoading(false);
-  };
-  
-  Router.onRouteChangeError = () => {
-    console.log('onRouteChangeError triggered');
+    console.log("onRouteChangeComplete triggered");
     setLoading(false);
   };
 
-  if (loading)
-    return <Loader />
-  else
-    return <Component {...pageProps} />
+  Router.onRouteChangeError = () => {
+    console.log("onRouteChangeError triggered");
+    setLoading(false);
+  };
+
+  if (loading) return <Loader />;
+  else return <Component {...pageProps} />;
 }
-  
-  // Only uncomment this method if you have blocking data requirements for
-  // every single page in your application. This disables the ability to
-  // perform automatic static optimization, causing every page in your app to
-  // be server-side rendered.
-  //
-  // MyApp.getInitialProps = async (appContext) => {
-  //   // calls page's `getInitialProps` and fills `appProps.pageProps`
-  //   const appProps = await App.getInitialProps(appContext);
-  //
-  //   return { ...appProps }
-  // }
-  
-export default MyApp;  
+
+// Only uncomment this method if you have blocking data requirements for
+// every single page in your application. This disables the ability to
+// perform automatic static optimization, causing every page in your app to
+// be server-side rendered.
+//
+// MyApp.getInitialProps = async (appContext) => {
+//   // calls page's `getInitialProps` and fills `appProps.pageProps`
+//   const appProps = await App.getInitialProps(appContext);
+//
+//   return { ...appProps }
+// }
+
+export default MyApp;

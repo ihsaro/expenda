@@ -1,3 +1,3 @@
 export function SetBudget() {
-    return <div>set!</div>
+  return <div>set!</div>;
 }
