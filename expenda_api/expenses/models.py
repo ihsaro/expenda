@@ -9,6 +9,7 @@ class Expense(models.Model):
     description = models.CharField(max_length=1000, blank=True)
     price = models.FloatField(blank=False, default=0)
     quantity = models.IntegerField(blank=False, default=1)
+    purchased_timestamp = models.DateTimeField()
     created_timestamp = models.DateTimeField(auto_now_add=True)
     last_modified_timestamp = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey(AppUser, on_delete=models.CASCADE)

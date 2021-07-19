@@ -50,7 +50,7 @@ export async function performPost(url, payload) {
 
     return {
       status: response.status,
-      data: await response.data,
+      data: await response.json(),
     };
   }
 

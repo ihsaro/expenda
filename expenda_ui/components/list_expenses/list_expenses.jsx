@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Table, Layout } from "antd";
+import { Table, Layout, Button, notification } from "antd";
 
-import { performGet } from "utils/api_communication";
+import { performGet, performPost } from "utils/api_communication";
 
 const { Content } = Layout;
 
@@ -27,9 +27,16 @@ export function ListExpenses() {
       dataIndex: "quantity",
       key: "quantity",
     },
+    {
+      title: "Date Purchased",
+      dataIndex: "purchased_timestamp",
+      key: "purchased_timestamp",
+    },
   ];
 
   const [expenses, setExpenses] = useState([]);
+  const [selectedExpenses, setSelectedExpenses] = useState([]);
+  const [toggleRefresh, setToggleRefresh] = useState(false);
   const selectionType = "checkbox";
 
   useEffect(() => {
@@ -43,22 +50,15 @@ export function ListExpenses() {
             description: expense.description,
             price: expense.price,
             quantity: expense.quantity,
+            purchased_timestamp: new Date(
+              expense.purchased_timestamp
+            ).toDateString(),
           });
         });
         setExpenses(expensesResponse);
       }
     });
-  }, []);
-
-  const rowSelection = {
-    onChange: (selectedRowKeys, selectedRows) => {
-      console.log(
-        `selectedRowKeys: ${selectedRowKeys}`,
-        "selectedRows: ",
-        selectedRows
-      );
-    }
-  };
+  }, [toggleRefresh]);
 
   const contentStyles = {
     margin: "10px",
@@ -68,8 +68,37 @@ export function ListExpenses() {
     fontFamily: "'Montserrat', sans-serif",
   };
 
+  const openNotificationWithIcon = (type, title, description) => {
+    notification[type]({
+      message: title,
+      description: description,
+      style: { fontFamily: "'Montserrat', sans-serif" },
+      placement: "bottomRight",
+    });
+  };
+
+  const rowSelection = {
+    onChange: (selectedRowKeys, selectedRows) => {
+      setSelectedExpenses(selectedRowKeys);
+    },
+  };
+
+  const performBatchExpensesDelete = (e) => {
+    performPost("/api/v1/expenses/batch-delete/", {
+      list_pk: selectedExpenses,
+    }).then((response) => {
+      if (response.status == 200) {
+        openNotificationWithIcon("success", "Success", "Expenses deleted");
+        setToggleRefresh(!toggleRefresh);
+      }
+    });
+  };
+
   return (
     <Content style={contentStyles}>
+      <Button type="danger" onClick={(e) => performBatchExpensesDelete(e)}>
+        Delete
+      </Button>
       <Table
         columns={columns}
         dataSource={expenses}

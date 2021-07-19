@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from authentication.utils import get_user_from_access_token
 
 from .models import MonthlyBudget
-from .selectors import fetch_expense
+from .selectors import fetch_expense, fetch_expenses
 from .serializers import CreateExpenseSerializer, UpdateExpenseSerializer, MonthlyBudgetSerializer
 
 
@@ -54,3 +54,11 @@ def set_monthly_budget_service(*, request: Request) -> Response:
         else:
             return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+def batch_delete_expenses_service(*, request: Request) -> Response:
+    for expense in fetch_expenses(list_pk=request.data['list_pk'],
+                                  current_user=get_user_from_access_token(request=request)):
+        expense.delete()
+
+    return Response({'detail': 'Expenses deleted'}, status=status.HTTP_200_OK)

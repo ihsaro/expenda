@@ -54,6 +54,18 @@ def fetch_expense(*, pk: int, current_user: AppUser) -> Expense:
     return expense
 
 
+def fetch_expenses(*, list_pk: [], current_user: AppUser) -> []:
+    expenses = Expense.objects.filter(pk__in=list_pk)
+
+    if not expenses:
+        return []
+
+    if expenses[0].owner != current_user:
+        raise AppPermissionDenied
+
+    return expenses
+
+
 def fetch_monthly_budget(*, pk: int, current_user: AppUser) -> MonthlyBudget:
     try:
         monthly_budget = MonthlyBudget.objects.get(pk=pk)

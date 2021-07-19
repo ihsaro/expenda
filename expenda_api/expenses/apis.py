@@ -13,7 +13,8 @@ from .services import (
     create_expenses_service,
     update_expense_service,
     delete_expense_service,
-    set_monthly_budget_service
+    set_monthly_budget_service,
+    batch_delete_expenses_service
 )
 
 
@@ -55,3 +56,10 @@ class RetrieveMonthlyBudgetAPI(APIView):
 
     def get(self, request, pk):
         return retrieve_monthly_budget_selector(request=request, pk=pk)
+
+
+class BatchDeleteExpensesAPI(APIView):
+    permission_classes = [IsJWTTokenValid]
+
+    def post(self, request):
+        return batch_delete_expenses_service(request=request)
