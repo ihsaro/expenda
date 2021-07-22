@@ -6,7 +6,8 @@ from .selectors import (
     list_expenses_selector,
     retrieve_expense_selector,
     list_monthly_budgets_selector,
-    retrieve_monthly_budget_selector
+    retrieve_monthly_budget_selector,
+    list_monthly_expenses_total_selector
 )
 
 from .services import (
@@ -63,3 +64,10 @@ class BatchDeleteExpensesAPI(APIView):
 
     def post(self, request):
         return batch_delete_expenses_service(request=request)
+
+
+class ListMonthlyExpensesTotalAPI(APIView):
+    permission_classes = [IsJWTTokenValid]
+
+    def get(self, request):
+        return list_monthly_expenses_total_selector(request=request)

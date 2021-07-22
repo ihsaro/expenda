@@ -1,3 +1,7 @@
+import calendar
+
+from typing import List
+
 from rest_framework import status
 from rest_framework.exceptions import NotFound
 from rest_framework.request import Request
@@ -42,6 +46,28 @@ def retrieve_monthly_budget_selector(*, request: Request, pk: int) -> Response:
     )
 
 
+def list_monthly_expenses_total_selector(*, request: Request) -> Response:
+    clustered_user_expenses = {}
+    current_user_expenses = Expense.objects.filter(owner=get_user_from_access_token(request=request))
+    for current_user_expense in current_user_expenses:
+        expense_month_name = calendar.month_name[current_user_expense.purchased_timestamp.month]
+        expense_year = current_user_expense.purchased_timestamp.year
+        if f'{expense_month_name} {expense_year}' not in clustered_user_expenses:
+            clustered_user_expenses[f'{expense_month_name} {expense_year}'] = 0.0
+        clustered_user_expenses[f'{expense_month_name} {expense_year}'] += (current_user_expense.price *
+                                                                            current_user_expense.quantity)
+
+    clustered_user_expenses_response_list = []
+
+    for key in clustered_user_expenses:
+        clustered_user_expenses_response_list.append({
+            'month': key,
+            'value': clustered_user_expenses[key]
+        })
+
+    return Response(clustered_user_expenses_response_list)
+
+
 def fetch_expense(*, pk: int, current_user: AppUser) -> Expense:
     try:
         expense = Expense.objects.get(pk=pk)
@@ -54,7 +80,7 @@ def fetch_expense(*, pk: int, current_user: AppUser) -> Expense:
     return expense
 
 
-def fetch_expenses(*, list_pk: [], current_user: AppUser) -> []:
+def fetch_expenses(*, list_pk: List[int], current_user: AppUser) -> List[int]:
     expenses = Expense.objects.filter(pk__in=list_pk)
 
     if not expenses:

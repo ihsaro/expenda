@@ -5,7 +5,8 @@ from .apis import (
     RetrieveUpdateDeleteExpenseAPI,
     ListSetMonthlyBudgetAPI,
     RetrieveMonthlyBudgetAPI,
-    BatchDeleteExpensesAPI
+    BatchDeleteExpensesAPI,
+    ListMonthlyExpensesTotalAPI
 )
 
 urlpatterns = [
@@ -14,4 +15,6 @@ urlpatterns = [
     path('monthly-budget/', ListSetMonthlyBudgetAPI.as_view(), name='expenses_list_set_monthly_budget'),
     path('monthly-budget/<int:pk>/', RetrieveMonthlyBudgetAPI.as_view(), name='expenses_retrieve_monthly_budget'),
     path('batch-delete/', BatchDeleteExpensesAPI.as_view(), name='expenses_batch_delete_expenses'),
+    path('list-monthly-expenses-total/', ListMonthlyExpensesTotalAPI.as_view(),
+         name='expenses_list_monthly_expenses_total'),
 ]
