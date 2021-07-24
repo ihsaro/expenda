@@ -37,6 +37,7 @@ def delete_expense_service(*, request: Request, pk: int) -> Response:
 
 def set_monthly_budget_service(*, request: Request) -> Response:
     request.data.__setitem__('owner', get_user_from_access_token(request=request).pk)
+    created = False
     try:
         serializer = MonthlyBudgetSerializer(
             MonthlyBudget.objects.get(owner=get_user_from_access_token(request=request), month=request.data['month'],

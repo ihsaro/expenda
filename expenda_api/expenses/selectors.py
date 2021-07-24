@@ -1,5 +1,6 @@
 import calendar
 
+from datetime import datetime
 from typing import List
 
 from rest_framework import status
@@ -48,10 +49,11 @@ def retrieve_monthly_budget_selector(*, request: Request, pk: int) -> Response:
 
 def list_monthly_expenses_total_selector(*, request: Request) -> Response:
     clustered_user_expenses = {}
-    current_user_expenses = Expense.objects.filter(owner=get_user_from_access_token(request=request))
+    current_user_expenses = Expense.objects.filter(owner=get_user_from_access_token(request=request)).order_by('purchased_timestamp')
     for current_user_expense in current_user_expenses:
         expense_month_name = calendar.month_name[current_user_expense.purchased_timestamp.month]
         expense_year = current_user_expense.purchased_timestamp.year
+
         if f'{expense_month_name} {expense_year}' not in clustered_user_expenses:
             clustered_user_expenses[f'{expense_month_name} {expense_year}'] = 0.0
         clustered_user_expenses[f'{expense_month_name} {expense_year}'] += (current_user_expense.price *

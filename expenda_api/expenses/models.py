@@ -56,6 +56,9 @@ class MonthlyBudget(models.Model):
     budget = models.FloatField(blank=False, default=0)
     owner = models.ForeignKey(AppUser, on_delete=models.CASCADE)
 
+    def clean(self):
+        breakpoint()
+
     def save(self, *args, **kwargs):
         self.full_clean()
         return super().save(*args, **kwargs)
