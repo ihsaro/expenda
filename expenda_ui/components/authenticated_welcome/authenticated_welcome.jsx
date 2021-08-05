@@ -60,7 +60,7 @@ export function AuthenticatedWelcome() {
         setIsLoading(false);
       }
     });
-  });
+  }, [component]);
 
   if (isLoading) {
     return <Loader />;

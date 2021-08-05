@@ -96,7 +96,11 @@ export function ListExpenses() {
 
   return (
     <Content style={contentStyles}>
-      <Button style={{ marginBottom: "10px" }} type="danger" onClick={(e) => performBatchExpensesDelete(e)}>
+      <Button
+        style={{ marginBottom: "10px" }}
+        type="danger"
+        onClick={(e) => performBatchExpensesDelete(e)}
+      >
         Delete
       </Button>
       <Table

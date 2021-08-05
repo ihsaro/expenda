@@ -1,8 +1,10 @@
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import { Form, Input, Button, Checkbox, notification } from "antd";
 
 import { performPost } from "utils/api_communication";
+import { checkifUserIsAuthenticated } from "utils/authentication_store";
 import { GuestNavigationBar } from "components/navigation_bar/navigation_bar";
 import { Footer } from "components/footer/footer";
 
@@ -54,6 +56,14 @@ export default function Login() {
   const onFinishFailed = (errorInfo) => {
     console.log("Failed: ", errorInfo);
   };
+
+  useEffect(() => {
+    checkifUserIsAuthenticated().then((response) => {
+      if (response == true) {
+        router.push("/");
+      }
+    });
+  })
 
   return (
     <>

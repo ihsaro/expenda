@@ -86,7 +86,7 @@ export function SetBudget() {
               </Select>
             </Form.Item>
           </Col>
-          
+
           <Col span={6} offset={1}>
             <Form.Item
               label="Year"
@@ -97,7 +97,12 @@ export function SetBudget() {
                 },
               ]}
             >
-              <InputNumber min={1970} max={2050} defaultValue={new Date().getFullYear()} style={{ width: "100%" }} />
+              <InputNumber
+                min={1970}
+                max={2050}
+                defaultValue={new Date().getFullYear()}
+                style={{ width: "100%" }}
+              />
             </Form.Item>
           </Col>
 
@@ -114,7 +119,6 @@ export function SetBudget() {
               <InputNumber style={{ width: "100%" }} defaultValue={0} />
             </Form.Item>
           </Col>
-
         </Row>
         <Row>
           <Col span={10} offset={1}>

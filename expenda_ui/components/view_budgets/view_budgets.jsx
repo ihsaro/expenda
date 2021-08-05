@@ -47,11 +47,7 @@ export function ViewBudgets() {
 
   return (
     <Content style={contentStyles}>
-      <Table
-        columns={columns}
-        dataSource={budgets}
-        style={tableStyles}
-      />
+      <Table columns={columns} dataSource={budgets} style={tableStyles} />
     </Content>
   );
 }
