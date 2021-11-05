@@ -12,7 +12,7 @@ from .selectors import (
     is_user_access_token_valid,
     is_user_refresh_token_valid
 )
-from .serializers import ProdexUserSerializer
+from .serializers import ExpendaAppUserSerializer
 from .services import (
     register,
     logout
@@ -29,7 +29,7 @@ class LoginAPI(TokenObtainPairView):
         response = Response({
             'access': data['access'],
             'refresh': data['refresh'],
-            'user': ProdexUserSerializer(AppUser.objects.filter(username=request.data['username']).first()).data
+            'user': ExpendaAppUserSerializer(AppUser.objects.filter(username=request.data['username']).first()).data
         })
         response.set_cookie(key='access', value=data['access'], httponly=True, samesite='strict', secure=True)
         response.set_cookie(key='refresh', value=data['refresh'], httponly=True, samesite='strict', secure=True)

@@ -1,6 +1,5 @@
 from django.contrib import admin
 
-from .models import Expense, MonthlyBudget
+from .models import Expense
 
 admin.site.register(Expense)
-admin.site.register(MonthlyBudget)

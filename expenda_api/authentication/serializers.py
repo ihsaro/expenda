@@ -3,7 +3,7 @@ from rest_framework.serializers import ModelSerializer
 from .models import AppUser
 
 
-class ProdexUserSerializer(ModelSerializer):
+class ExpendaAppUserSerializer(ModelSerializer):
     class Meta:
         model = AppUser
         fields = ['id', 'username', 'first_name', 'last_name', 'email', 'password']

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
 
     'authentication.apps.AuthenticationConfig',
     'expenses.apps.ExpensesConfig',
+    'monthly_budgets.apps.MonthlyBudgetsConfig',
 ]
 
 MIDDLEWARE = [

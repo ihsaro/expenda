@@ -1,0 +1,24 @@
+[
+  {
+    "model": "authentication.AppUser",
+    "pk": 1,
+    "fields": {
+      "first_name": "john",
+      "last_name": "smith",
+      "email": "johnsmith@expenda.com",
+      "username": "johnsmith",
+      "password": "pbkdf2_sha256$260000$MQmkWfAn5hqjtSyZe2Nklj$fufcNrQSO4B2QJ7kqDObh4o7xwti6W1HP6SAcQ8bnNA="
+    }
+  },
+  {
+    "model": "authentication.AppUser",
+    "pk": 1,
+    "fields": {
+      "first_name": "mary",
+      "last_name": "doe",
+      "email": "marydoe@expenda.com",
+      "username": "marydoe",
+      "password": "pbkdf2_sha256$260000$MQmkWfAn5hqjtSyZe2Nklj$fufcNrQSO4B2QJ7kqDObh4o7xwti6W1HP6SAcQ8bnNA="
+    }
+  }
+]

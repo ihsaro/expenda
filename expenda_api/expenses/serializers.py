@@ -1,6 +1,6 @@
 from rest_framework.serializers import ModelSerializer
 
-from expenses.models import Expense, MonthlyBudget
+from expenses.models import Expense
 
 
 class ListRetrieveExpenseSerializer(ModelSerializer):
@@ -19,9 +19,3 @@ class UpdateExpenseSerializer(ModelSerializer):
     class Meta:
         model = Expense
         fields = ['name', 'description', 'price', 'quantity', 'purchased_timestamp']
-
-
-class MonthlyBudgetSerializer(ModelSerializer):
-    class Meta:
-        model = MonthlyBudget
-        fields = '__all__'

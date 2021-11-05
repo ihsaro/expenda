@@ -4,17 +4,17 @@ from rest_framework.response import Response
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from authentication.models import AppUser
-from authentication.serializers import ProdexUserSerializer
+from authentication.serializers import ExpendaAppUserSerializer
 from authentication.utils import get_refresh_token
 
 
 def register(*, request: Request) -> Response:
-    serializer = ProdexUserSerializer(data=request.data)
+    serializer = ExpendaAppUserSerializer(data=request.data)
     serializer.is_valid(raise_exception=True)
     created_user = serializer.save()
 
     return Response(
-        ProdexUserSerializer(AppUser.objects.filter(username=created_user.username).first()).data,
+        ExpendaAppUserSerializer(AppUser.objects.filter(username=created_user.username).first()).data,
         status=status.HTTP_201_CREATED
     )
 
