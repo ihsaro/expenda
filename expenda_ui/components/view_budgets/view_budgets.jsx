@@ -22,7 +22,7 @@ export function ViewBudgets() {
   const [budgets, setBudgets] = useState([]);
 
   useEffect(() => {
-    performGet("/api/v1/expenses/monthly-budget/").then((response) => {
+    performGet("/api/v1/monthly-budgets/").then((response) => {
       if (response.status == 200) {
         const budgetResponse = [];
         response.data.forEach((budget) => {

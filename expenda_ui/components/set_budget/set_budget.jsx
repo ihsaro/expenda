@@ -15,7 +15,7 @@ const { Content } = Layout;
 
 export function SetBudget() {
   const onFinish = (values) => {
-    performPost("/api/v1/expenses/monthly-budget/", {
+    performPost("/api/v1/monthly-budgets/", {
       month: values.month,
       year: values.year,
       budget: values.budget,

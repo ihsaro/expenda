@@ -18,6 +18,14 @@ def set_monthly_budget_service(*, request: Request) -> Response:
             data=request.data
         )
     except MonthlyBudget.DoesNotExist:
+        if 'reference_code' not in request.data:
+            request.data.__setitem__(
+                'reference_code', '{month}_{year}_{owner}'.format(
+                    month=request.data['month'],
+                    year=request.data['year'],
+                    owner=request.data['owner']
+                )
+            )
         serializer = MonthlyBudgetSerializer(data=request.data)
         created = True
 
