@@ -22,17 +22,24 @@ export function ViewBudgets() {
   const [budgets, setBudgets] = useState([]);
 
   useEffect(() => {
-    performGet("/api/v1/monthly-budgets/").then((response) => {
-      if (response.status == 200) {
-        const budgetResponse = [];
-        response.data.forEach((budget) => {
-          budgetResponse.push({
-            key: budget.id,
-            timeframe: `${budget.month} ${budget.year}`,
-            budget: budget.budget,
-          });
+    checkifUserIsAuthenticated().then((response) => {
+      if (response == false) {
+        router.push("/login");
+      }
+      else {
+        performGet("/api/v1/monthly-budgets/").then((response) => {
+          if (response.status == 200) {
+            const budgetResponse = [];
+            response.data.forEach((budget) => {
+              budgetResponse.push({
+                key: budget.id,
+                timeframe: `${budget.month} ${budget.year}`,
+                budget: budget.budget,
+              });
+            });
+            setBudgets(budgetResponse);
+          }
         });
-        setBudgets(budgetResponse);
       }
     });
   }, []);

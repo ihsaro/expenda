@@ -7,20 +7,27 @@ export function Home() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    performGet("/api/v1/expenses/list-monthly-expenses-total/").then(
-      (response) => {
-        if (response.status == 200) {
-          const monthlyExpensesResponse = [];
-          response.data.forEach((monthlyExpense) => {
-            monthlyExpensesResponse.push({
-              month: monthlyExpense.month,
-              value: monthlyExpense.value,
-            });
-          });
-          setData(monthlyExpensesResponse);
-        }
+    checkifUserIsAuthenticated().then((response) => {
+      if (response == false) {
+        router.push("/login");
       }
-    );
+      else {
+        performGet("/api/v1/expenses/list-monthly-expenses-total/").then(
+          (response) => {
+            if (response.status == 200) {
+              const monthlyExpensesResponse = [];
+              response.data.forEach((monthlyExpense) => {
+                monthlyExpensesResponse.push({
+                  month: monthlyExpense.month,
+                  value: monthlyExpense.value,
+                });
+              });
+              setData(monthlyExpensesResponse);
+            }
+          }
+        );
+      }
+    });
   }, []);
 
   return (

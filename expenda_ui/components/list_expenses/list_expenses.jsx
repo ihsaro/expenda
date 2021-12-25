@@ -40,22 +40,29 @@ export function ListExpenses() {
   const selectionType = "checkbox";
 
   useEffect(() => {
-    performGet("/api/v1/expenses/").then((response) => {
-      if (response.status == 200) {
-        const expensesResponse = [];
-        response.data.forEach((expense) => {
-          expensesResponse.push({
-            key: expense.id,
-            name: expense.name,
-            description: expense.description,
-            price: expense.price,
-            quantity: expense.quantity,
-            purchased_timestamp: new Date(
-              expense.purchased_timestamp
-            ).toDateString(),
-          });
+    checkifUserIsAuthenticated().then((response) => {
+      if (response == false) {
+        router.push("/login");
+      }
+      else {
+        performGet("/api/v1/expenses/").then((response) => {
+          if (response.status == 200) {
+            const expensesResponse = [];
+            response.data.forEach((expense) => {
+              expensesResponse.push({
+                key: expense.id,
+                name: expense.name,
+                description: expense.description,
+                price: expense.price,
+                quantity: expense.quantity,
+                purchased_timestamp: new Date(
+                  expense.purchased_timestamp
+                ).toDateString(),
+              });
+            });
+            setExpenses(expensesResponse);
+          }
         });
-        setExpenses(expensesResponse);
       }
     });
   }, [toggleRefresh]);

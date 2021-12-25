@@ -17,17 +17,24 @@ const { Content } = Layout;
 
 export function CreateExpense() {
   const onFinish = (values) => {
-    performPost("/api/v1/expenses/", {
-      name: values.name,
-      description: values.description,
-      price: values.price,
-      quantity: values.quantity,
-      purchased_timestamp: values.purchased_timestamp,
-    }).then((response) => {
-      if (response.status == 400) {
-        // openNotificationWithIcon("error", "Bad data", "Credentials provided incorrect");
-      } else if (response.status == 201) {
-        openNotificationWithIcon("success", "Created", "Product Added");
+    checkifUserIsAuthenticated().then((response) => {
+      if (response == false) {
+        router.push("/login");
+      }
+      else {
+        performPost("/api/v1/expenses/", {
+          name: values.name,
+          description: values.description,
+          price: values.price,
+          quantity: values.quantity,
+          purchased_timestamp: values.purchased_timestamp,
+        }).then((response) => {
+          if (response.status == 400) {
+            // openNotificationWithIcon("error", "Bad data", "Credentials provided incorrect");
+          } else if (response.status == 201) {
+            openNotificationWithIcon("success", "Created", "Product Added");
+          }
+        });
       }
     });
   };

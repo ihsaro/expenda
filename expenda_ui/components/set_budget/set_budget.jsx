@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import {
   Form,
   Input,
@@ -11,21 +12,32 @@ import {
 } from "antd";
 import { performPost } from "utils/api_communication";
 
+import { checkifUserIsAuthenticated } from "utils/authentication_store";
+
 const { Content } = Layout;
 
 export function SetBudget() {
+  const router = useRouter();
+
   const onFinish = (values) => {
-    performPost("/api/v1/monthly-budgets/", {
-      month: values.month,
-      year: values.year,
-      budget: values.budget,
-    }).then((response) => {
-      if (response.status == 400) {
-        // openNotificationWithIcon("error", "Bad data", "Credentials provided incorrect");
-      } else if (response.status == 201) {
-        openNotificationWithIcon("success", "Created", "Budget Created");
-      } else if (response.status == 200) {
-        openNotificationWithIcon("success", "Updated", "Budget Updated");
+    checkifUserIsAuthenticated().then((response) => {
+      if (response == false) {
+        router.push("/login");
+      }
+      else {
+        performPost("/api/v1/monthly-budgets/", {
+          month: values.month,
+          year: values.year,
+          budget: values.budget,
+        }).then((response) => {
+          if (response.status == 400) {
+            // openNotificationWithIcon("error", "Bad data", "Credentials provided incorrect");
+          } else if (response.status == 201) {
+            openNotificationWithIcon("success", "Created", "Budget Created");
+          } else if (response.status == 200) {
+            openNotificationWithIcon("success", "Updated", "Budget Updated");
+          }
+        });
       }
     });
   };
